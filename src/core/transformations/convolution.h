@@ -16,7 +16,7 @@ public:
 
 protected:
     const math::matrix<float> join(math::matrix<float>, math::matrix<float>);
-    const float               sum(math::matrix<float>);
+    float sum(math::matrix<float>);
     const math::matrix<float> reflection(math::matrix<float>);
 };
 

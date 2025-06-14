@@ -35,7 +35,7 @@ const T& min (const T& x, const T& y)
    return (y < x) ? y : x;
 }
 
-template <class T> inline 
+template <class T> inline
 void mswap (const Mref<T>& x, const Mref<T>& y)
 {
    T z = x;
@@ -43,7 +43,7 @@ void mswap (const Mref<T>& x, const Mref<T>& y)
    y = z;
 }
 
-template <class T> inline 
+template <class T> inline
 void mswap (const Mat_iter<T>& x, const Mat_iter<T>& y)
 {
    size_t n = min( x.size(), y.size());
@@ -55,7 +55,7 @@ void mswap (const Mat_iter<T>& x, const Mat_iter<T>& y)
    }
 }
 
-template <class T> inline 
+template <class T> inline
 void mswap (matrix<T>& x, matrix<T>& y)
 {
    matrix<T> z = x;
@@ -63,36 +63,36 @@ void mswap (matrix<T>& x, matrix<T>& y)
    y = z;
 }
 
-inline float epsilon (complex<float>) 
+inline float epsilon (complex<float>)
 {
    return std::numeric_limits<float>::epsilon() * 100.0f;
 }
 
-inline double epsilon (complex<double>) 
+inline double epsilon (complex<double>)
 {
    return std::numeric_limits<double>::epsilon() * 1e4;
 }
 
-inline long double epsilon (complex<long double>) 
+inline long double epsilon (complex<long double>)
 {
    return std::numeric_limits<long double>::epsilon() * 1e4;
 }
 
-inline double epsilon (const double& v) 
-{ 
+inline double epsilon (const double& v)
+{
    double ep = std::numeric_limits<double>::epsilon() * 1e4;
    return v > 1.0 ? v * ep : ep;
 }
 
-inline long double epsilon (const long double& v) 
-{ 
+inline long double epsilon (const long double& v)
+{
    long double ep = std::numeric_limits<long double>::epsilon() * 1e4;
    return v > 1.0 ? v * ep : ep;
 }
 
-template <class T> inline 
-T epsilon (const T& v) 
-{ 
+template <class T> inline
+T epsilon (const T& v)
+{
    T e = std::numeric_limits<T>::epsilon() * 100;
    return v > T(1) ? v * e : e;
 }
@@ -525,7 +525,7 @@ matrix<T>::allocator (AllocType bOpt, size_t nrow, size_t ncol)
    {
       first = false;
       for (int k=0; k <= MAX_MATRIX_CACHE; k++)
-         mlist[k] = NULL;   
+         mlist[k] = NULL;
    }
 
    switch (bOpt)
@@ -634,7 +634,7 @@ matrix<T>::operator[] (gmslice gm)
    if (gm.size() > size())
        throw invalid_argument( "matrix<T>::operator[]: sub-matrix is out of range!");
    #endif
-   
+
    if (gm.getype() != GENERAL)
    {
       gm.ncol_ = mPtr->ncol;
@@ -658,7 +658,7 @@ matrix<T>::operator[] (gmslice gm)
       for (i=1; i < gm.ncol_; ++i)
          gm.srow_[i] = i-1;
       break;
-      
+
    case UTRIANG:
       for (i=0; i < gm.ncol_; ++i)
       {
@@ -666,7 +666,7 @@ matrix<T>::operator[] (gmslice gm)
          gm.rsize_[i] = gm.ncol_-i;
       }
       break;
-      
+
    case LTRIANG:
       gm.srow_ = 0;
       for (i=0; i < gm.ncol_; ++i)
@@ -784,7 +784,7 @@ matrix<T>::operator[] (gmslice gm) const
    if (gm.size() > size())
        throw invalid_argument( "matrix<T>::operator[]: sub-matrix is out of range!");
    #endif
-   
+
    if (gm.getype() != GENERAL)
    {
       gm.ncol_ = mPtr->ncol;
@@ -808,7 +808,7 @@ matrix<T>::operator[] (gmslice gm) const
       for (k=1; k < gm.ncol_; ++k)
          gm.srow_[k] = k-1;
       break;
-      
+
    case UTRIANG:
       for (k=0; k < gm.ncol_; ++k)
       {
@@ -816,7 +816,7 @@ matrix<T>::operator[] (gmslice gm) const
          gm.rsize_[k] = gm.ncol_-k;
       }
       break;
-      
+
    case LTRIANG:
       gm.srow_ = 0;
       for (k=0; k < gm.ncol_; ++k)
@@ -1076,7 +1076,7 @@ matrix<T>::operator/= (const matrix<T>& m)
    return *this;
 }
 
-template <class T> matrix<T> 
+template <class T> matrix<T>
 matrix<T>::operator- () const
 {
    matrix<T> m( mPtr->nrow, mPtr->ncol);
@@ -1096,14 +1096,14 @@ matrix<T> matrix<T>::operator~ () const
    size_t m = mPtr->nrow;
    size_t n = mPtr->ncol;
    matrix<T> tm( n, m);
-   
+
    const T *pm = &mPtr->val[0];
    T *ptm = &tm.mPtr->val[0];
 
    for (size_t i=0; i < m; i++)
       for (size_t j=0; j < n; j++)
          ptm[j*m+i] = pm[i*n+j];
-         
+
    return tm;
 }
 
@@ -1249,7 +1249,7 @@ operator!= (const matrix<T>& m1, const matrix<T>& m2)
    return !(m1 == m2);
 }
 
-template <class T> bool 
+template <class T> bool
 isVecEq (const valarray<T>& v1, const valarray<T>& v2)
 {
    if (v1.size() != v2.size())
@@ -1264,14 +1264,14 @@ isVecEq (const valarray<T>& v1, const valarray<T>& v2)
    return true;
 }
 
-template <class T> inline void 
+template <class T> inline void
 matrix<T>::unit ()
 {
    null();
    diag(0) = T(1);
 }
 
-template <class T> inline void 
+template <class T> inline void
 matrix<T>::null ()
 {
    if (shared())
@@ -1308,7 +1308,7 @@ matrix<T>::rand (int rmin, int rmax, int rseed)
       --mPtr->refcnt;
       mPtr = allocator( Allocate, mPtr->nrow, mPtr->ncol);
    }
-   
+
    T *pv = &mPtr->val[0];
    size_t n = size();
 
@@ -1417,7 +1417,7 @@ matrix<T>::trace (int i) const
 ///////////
 // Computes (a^2 + b^2 )^1/2 without destructive underflow or overflow.
 //
-template <class T> inline 
+template <class T> inline
 T hypot (T a, T b)
 {
    a = abs( a);
@@ -1500,7 +1500,7 @@ bool matrix<T>::lud (valarray<size_t>& ri, T* pDet)
    }
    if (pDet != NULL)
       *pDet *= pv[ri[k]*n+k];
-   
+
    return true;
 }
 
@@ -1547,7 +1547,7 @@ matrix<T>::lubksb (const valarray<size_t>& ri, const valarray<T>& v, valarray<T>
    }
 }
 
-template <class T> void 
+template <class T> void
 matrix<T>::lumpove (const matrix<T>& ludm, const valarray<size_t>& ri, const valarray<T>& v, valarray<T>& s) const
 {
    size_t i,j;
@@ -1567,7 +1567,7 @@ matrix<T>::lumpove (const matrix<T>& ludm, const valarray<size_t>& ri, const val
       s[i] -= rs[i];
 }
 
-template <class T> bool 
+template <class T> bool
 matrix<T>::solve (const valarray<T>& v, valarray<T>& s) const
 {
    matrix<T> tm = *this;
@@ -1581,7 +1581,7 @@ matrix<T>::solve (const valarray<T>& v, valarray<T>& s) const
    return false;
 }
 
-template <class T> bool 
+template <class T> bool
 matrix<T>::solve_chol (const valarray<T>& v, valarray<T>& s) const
 {
    matrix<T> tm = *this;
@@ -1594,7 +1594,7 @@ matrix<T>::solve_chol (const valarray<T>& v, valarray<T>& s) const
    return false;
 }
 
-template <class T> bool 
+template <class T> bool
 matrix<T>::solve_sv (const valarray<T>& v, valarray<T>& s) const
 {
    #ifdef RANGE_CHECK_
@@ -1614,7 +1614,7 @@ matrix<T>::solve_sv (const valarray<T>& v, valarray<T>& s) const
    return false;
 }
 
-template <class T> bool 
+template <class T> bool
 matrix<T>::solve_qr (const valarray<T>& v, valarray<T>& s) const
 {
    #ifdef RANGE_CHECK_
@@ -1627,7 +1627,7 @@ matrix<T>::solve_qr (const valarray<T>& v, valarray<T>& s) const
 
    tm.qrd( r);
    tm.qrbksb( r, v, s);
-   
+
    return true;
 }
 
@@ -1659,7 +1659,7 @@ matrix<T>::solve (const matrix<T>& v, matrix<T>& s) const
    return true;
 }
 
-template <class T> bool 
+template <class T> bool
 matrix<T>::chold ()
 {
    #ifdef RANGE_CHECK_
@@ -1689,10 +1689,10 @@ matrix<T>::chold ()
          else
             pa[j*n+i] = s / pa[i*n+i];
       }
-	for (j=1; j < n; j++)
-		for (i=0; i < j; i++)
-			pa[i*n+j] = T(0);
-   
+    for (j=1; j < n; j++)
+        for (i=0; i < j; i++)
+            pa[i*n+j] = T(0);
+
    return true;
 }
 
@@ -1725,7 +1725,7 @@ matrix<T>::cholbksb (const valarray<T>& v, valarray<T>& s) const
    }
 }
 
-template <class T> void        
+template <class T> void
 matrix<T>::qrd (matrix<T>& r)
 {
    size_t i,j,k;
@@ -1775,8 +1775,8 @@ matrix<T>::qrd (matrix<T>& r)
       pr[k*n+k] = -nrm;
    }
 
-	for (j=1; j < n; j++)
-		for (size_t i=0; i < j; i++)
+    for (j=1; j < n; j++)
+        for (size_t i=0; i < j; i++)
       {
          pr[i*n+j] = pa[i*n+j];
          pr[j*n+i] = T(0);
@@ -1842,7 +1842,7 @@ matrix<T>::qrbksb (const matrix<T>& r, const valarray<T>& v, valarray<T>& s) con
    }
 }
 
-template <class T> bool 
+template <class T> bool
 matrix<T>::svd (matrix<T>& vc, valarray<T>& w)
 {
    size_t flag,i,its,j,jj,k,l,nm;
@@ -2038,7 +2038,7 @@ matrix<T>::svd (matrix<T>& vc, valarray<T>& w)
             }
          }
          z = w[k];
-         if (l == k)                 
+         if (l == k)
          {
             if (z < T(0))
             {
@@ -2048,7 +2048,7 @@ matrix<T>::svd (matrix<T>& vc, valarray<T>& w)
             }
             break;
          }
-         
+
          if (its == 30)
             return false;
 
@@ -2060,7 +2060,7 @@ matrix<T>::svd (matrix<T>& vc, valarray<T>& w)
          f = ((y-z) * (y+z) + (g-h) * (g+h)) / (T(2) * h * y);
          g = hypot( f, T(1));
          f = ((x-z) * (x+z) + h * ((y / (f+sign( g, f))) - h)) / x;
-         c = s = T(1);                    
+         c = s = T(1);
          for (j=l; j <= nm; j++)
          {
             i = j + 1;
@@ -2119,25 +2119,25 @@ matrix<T>::svbksb (const matrix<T>& vc, const valarray<T>& w, const valarray<T>&
    size_t m = mPtr->nrow;
    size_t n = mPtr->ncol;
    valarray<T> tmp(n);
-   
+
    pm = &mPtr->val[0];
-   for (j=0; j < n; j++)                  
-   { 
+   for (j=0; j < n; j++)
+   {
       T ta(0);
       if (abs(w[j]) > epsilon(w[j]))
-      { 
-         for (i=0; i < m; i++) 
+      {
+         for (i=0; i < m; i++)
             ta += pm[i*n+j] * b[i];
-         ta /= w[j];                       
+         ta /= w[j];
       }
       tmp[j] = ta;
    }
 
    pm = &vc.mPtr->val[0];
-   for (j=0; j < n; j++)                  
-   { 
+   for (j=0; j < n; j++)
+   {
       T ta(0);
-      for (k=0; k < n; k++) 
+      for (k=0; k < n; k++)
          ta += pm[j*n+k] * tmp[k];
       s[j] = ta;
    }
@@ -2215,7 +2215,7 @@ matrix<T>::cond () const
    return T(0);
 }
 
-template <class T> size_t 
+template <class T> size_t
 matrix<T>::rank () const
 {
    matrix<T> m(*this);
@@ -2258,7 +2258,7 @@ matrix<T>::cofact (size_t row, size_t col) const
    #ifdef RANGE_CHECK_
    if (mPtr->nrow != mPtr->ncol)
       throw invalid_argument( "matrix<T>::Cofact(): Cofactor of a non-square matrix!");
-   
+
    if (row >= mPtr->nrow || col >= mPtr->ncol)
       throw out_of_range( "matrix<T>::Cofact(): Index out of range!");
    #endif
@@ -2274,9 +2274,9 @@ matrix<T>::cofact (size_t row, size_t col) const
         continue;
       for (j=0,j1=0; j < n; j++)
       {
-      	 if (j == col)
+         if (j == col)
             continue;
-      	 ptm[i1*(n-1)+j1] = pm[i*n+j];
+         ptm[i1*(n-1)+j1] = pm[i*n+j];
          j1++;
       }
       i1++;
@@ -2513,7 +2513,7 @@ matrix<T>::isScalar () const
    for (size_t i=1; i < n; i++)
      if (abs( pm[i*n+i] - v) > epsilon( v))
         return false;
-        
+
    return true;
 }
 
@@ -2530,8 +2530,8 @@ matrix<T>::isUnit () const throw()
      if (abs( pm[k*n+k] - T(1)) > epsilon( T(1)))
        return false;
 
-	for (size_t j=1; j < n; j++)
-	  for (size_t i=0; i < j; i++)
+    for (size_t j=1; j < n; j++)
+      for (size_t i=0; i < j; i++)
        if (abs( pm[i*n+j]) > epsilon( T(1)) || abs( pm[j*n+i]) > epsilon( T(1)))
           return false;
 
@@ -2560,9 +2560,9 @@ matrix<T>::isSymmetric () const
    size_t n = mPtr->nrow;
    const T *pm = &mPtr->val[0];
 
-	for (size_t j=1; j < n; j++)
-		for (size_t i=0; i < j; i++)
-			if (abs( pm[i*n+j] - pm[j*n+i]) > epsilon( pm[0]))
+    for (size_t j=1; j < n; j++)
+        for (size_t i=0; i < j; i++)
+            if (abs( pm[i*n+j] - pm[j*n+i]) > epsilon( pm[0]))
             return false;
    return true;
 }
@@ -2576,9 +2576,9 @@ matrix<T>::isSkewSymmetric () const
    size_t n = mPtr->nrow;
    const T *pm = &mPtr->val[0];
 
-	for (size_t j=1; j < n; j++)
-		for (size_t i=0; i < j; i++)
-			if (abs( pm[i*n+j] + pm[j*n+i]) > epsilon( pm[0]))
+    for (size_t j=1; j < n; j++)
+        for (size_t i=0; i < j; i++)
+            if (abs( pm[i*n+j] + pm[j*n+i]) > epsilon( pm[0]))
             return false;
    return true;
 }
@@ -2629,7 +2629,7 @@ matrix<T>::isColOrthogonal () const
    return tm.isUnit();
 }
 
-template <class T> matrix<T> 
+template <class T> matrix<T>
 matrix<T>::apply (T (*fn)(T)) const
 {
    matrix<T> a( mPtr->nrow, mPtr->ncol);
@@ -2644,7 +2644,7 @@ matrix<T>::apply (T (*fn)(T)) const
    return a;
 }
 
-template <class T> matrix<T> 
+template <class T> matrix<T>
 matrix<T>::apply (T (*fn)(size_t,size_t,T)) const
 {
    size_t m = mPtr->nrow;
@@ -2662,7 +2662,7 @@ matrix<T>::apply (T (*fn)(size_t,size_t,T)) const
    return a;
 }
 
-template <class T> matrix<T> 
+template <class T> matrix<T>
 matrix<T>::apply (T (*fn)(size_t,size_t,const T&)) const
 {
    size_t m = mPtr->nrow;
@@ -2680,7 +2680,7 @@ matrix<T>::apply (T (*fn)(size_t,size_t,const T&)) const
    return a;
 }
 
-template <class T> inline matrix<T> 
+template <class T> inline matrix<T>
 matrix<T>::apply (T (*fn)(const T&)) const
 {
    matrix<T> a( mPtr->nrow, mPtr->ncol);
@@ -2695,14 +2695,14 @@ matrix<T>::apply (T (*fn)(const T&)) const
    return a;
 }
 
-template <class T> bool 
+template <class T> bool
 matrix<T>::eigen (valarray<T>& eival) const
 {
    #ifdef RANGE_CHECK_
    if (!isSymmetric())
       return false;
    #endif
-   
+
    if (eival.size() != mPtr->nrow)
       eival.resize( mPtr->nrow);
 
@@ -2713,14 +2713,14 @@ matrix<T>::eigen (valarray<T>& eival) const
    return a.tql2( eival, e, false);
 }
 
-template <class T> bool 
+template <class T> bool
 matrix<T>::eigen (valarray<T>& eival, matrix<T>& eivec) const
 {
    #ifdef RANGE_CHECK_
    if (!isSymmetric())
       return false;
    #endif
-   
+
    valarray<T> e(mPtr->nrow);
 
    if (eival.size() != mPtr->nrow)
@@ -2732,14 +2732,14 @@ matrix<T>::eigen (valarray<T>& eival, matrix<T>& eivec) const
    return eivec.tql2( eival, e, true);
 }
 
-template <class T> bool 
+template <class T> bool
 matrix<T>::eigen (valarray<T>& rev, valarray<T>& iev) const
 {
    #ifdef RANGE_CHECK_
    if (mPtr->nrow != mPtr->ncol)
       return false;
    #endif
-   
+
    if (rev.size() != mPtr->nrow)
       rev.resize( mPtr->nrow);
    if (iev.size() != mPtr->nrow)
@@ -2751,14 +2751,14 @@ matrix<T>::eigen (valarray<T>& rev, valarray<T>& iev) const
    return m.hqr2( rev, iev, eivec, false);
 }
 
-template <class T> bool 
+template <class T> bool
 matrix<T>::eigen (valarray<T>& rev, valarray<T>& iev, matrix<T>& eivec) const
 {
    #ifdef RANGE_CHECK_
    if (mPtr->nrow != mPtr->ncol)
       return false;
    #endif
-   
+
    if (rev.size() != mPtr->nrow)
       rev.resize( mPtr->nrow);
    if (iev.size() != mPtr->nrow)
@@ -2773,18 +2773,18 @@ matrix<T>::eigen (valarray<T>& rev, valarray<T>& iev, matrix<T>& eivec) const
 }
 
 template <class T> inline
-void cdiv (const T& xr, const T& xi, const T& yr, const T& yi, T& cdivr, T& cdivi) 
+void cdiv (const T& xr, const T& xi, const T& yr, const T& yi, T& cdivr, T& cdivi)
 {
    T r,d;
 
-   if (abs( yr) > abs( yi)) 
+   if (abs( yr) > abs( yi))
    {
       r = yi/yr;
       d = yr + r*yi;
       cdivr = (xr + r*xi)/d;
       cdivi = (xi - r*xr)/d;
-   } 
-   else 
+   }
+   else
    {
       r = yr/yi;
       d = yi + r*yr;
@@ -2794,8 +2794,8 @@ void cdiv (const T& xr, const T& xi, const T& yr, const T& yi, T& cdivr, T& cdiv
 }
 
 ////////////////////////
-//  This is derived from the Algol procedure hqr2, by Martin 
-//  and Wilkinson, Handbook for Auto. Comp.,Vol.ii-Linear Algebra, 
+//  This is derived from the Algol procedure hqr2, by Martin
+//  and Wilkinson, Handbook for Auto. Comp.,Vol.ii-Linear Algebra,
 //  and the corresponding Fortran subroutine in EISPACK.
 //
 template <class T> bool
@@ -2819,9 +2819,9 @@ matrix<T>::hqr2 (valarray<T>& d, valarray<T>& e, matrix<T>& v, bool eivec)
       pv = &v(0,0);
 
    T norm(0);
-   for (i=0; i < nn; i++) 
+   for (i=0; i < nn; i++)
    {
-      if (i < low || i > high) 
+      if (i < low || i > high)
       {
          d[i] = pm[i*nn+i];
          e[i] = T(0);
@@ -2831,30 +2831,30 @@ matrix<T>::hqr2 (valarray<T>& d, valarray<T>& e, matrix<T>& v, bool eivec)
    }
 
    size_t iter = 0;
-   while (n >= low) 
+   while (n >= low)
    {
       l = n;
-      while (l > low) 
+      while (l > low)
       {
          s = abs( pm[(l-1)*nn+l-1]) + abs( pm[l*nn+l]);
          if (s < epsilon(s))
             s = norm;
-        
+
          if (abs( pm[l*nn+l-1]) < epsilon(pm[l*nn+l-1]) * s)
             break;
-        
-         l--;     
+
+         l--;
       }
-    
-      if (l == n) 
+
+      if (l == n)
       {
          pm[n*nn+n] += exshift;
          d[n] = pm[n*nn+n];
          e[n] = T(0);
          n--;
          iter = 0;
-      } 
-      else if (l == n-1) 
+      }
+      else if (l == n-1)
       {
          w = pm[n*nn+n-1] * pm[(n-1)*nn+n];
          p = (pm[(n-1)*nn+n-1] - pm[n*nn+n]) / T(2);
@@ -2864,18 +2864,18 @@ matrix<T>::hqr2 (valarray<T>& d, valarray<T>& e, matrix<T>& v, bool eivec)
          pm[(n-1)*nn+n-1] += exshift;
          x = pm[n*nn+n];
 
-         if (q >= T(0)) 
+         if (q >= T(0))
          {
             if (p >= T(0))
                z = p + z;
             else
                z = p - z;
-           
+
             d[n-1] = x + z;
             d[n] = d[n-1];
             if (z != T(0))
                d[n] = x - w / z;
-           
+
             e[n-1] = T(0);
             e[n] = T(0);
 
@@ -2887,14 +2887,14 @@ matrix<T>::hqr2 (valarray<T>& d, valarray<T>& e, matrix<T>& v, bool eivec)
             p = p / r;
             q = q / r;
 
-            for (j = n-1; j < nn; j++) 
+            for (j = n-1; j < nn; j++)
             {
                z = pm[(n-1)*nn+j];
                pm[(n-1)*nn+j] = q * z + p * pm[n*nn+j];
                pm[n*nn+j] = q * pm[n*nn+j] - p * z;
             }
 
-            for (i = 0; i <= n; i++) 
+            for (i = 0; i <= n; i++)
             {
                z = pm[i*nn+n-1];
                pm[i*nn+n-1] = q * z + p * pm[i*nn+n];
@@ -2902,14 +2902,14 @@ matrix<T>::hqr2 (valarray<T>& d, valarray<T>& e, matrix<T>& v, bool eivec)
             }
 
             if (eivec)
-               for (i = low; i <= high; i++) 
+               for (i = low; i <= high; i++)
                {
                   z = pv[i*nn+n-1];
                   pv[i*nn+n-1] = q * z + p * pv[i*nn+n];
                   pv[i*nn+n] = q * pv[i*nn+n] - p * z;
                }
-         } 
-         else 
+         }
+         else
          {
             d[n-1] = x + p;
             d[n] = x + p;
@@ -2918,43 +2918,43 @@ matrix<T>::hqr2 (valarray<T>& d, valarray<T>& e, matrix<T>& v, bool eivec)
          }
          n = n - 2;
          iter = 0;
-      } 
-      else 
+      }
+      else
       {
          x = pm[n*nn+n];
          y = T(0);
          w = T(0);
-         if (l < n) 
+         if (l < n)
          {
             y = pm[(n-1)*nn+n-1];
             w = pm[n*nn+n-1] * pm[(n-1)*nn+n];
          }
 
-         if (iter == 10) 
+         if (iter == 10)
          {
             exshift += x;
             for (i = low; i <= n; i++)
                pm[i*nn+i] -= x;
-           
+
             s = abs( pm[n*nn+n-1]) + abs( pm[(n-1)*nn+n-2]);
             x = y = 0.75 * s;
             w = -0.4375 * s * s;
          }
 
-         if (iter == 30) 
+         if (iter == 30)
          {
              s = (y - x) / T(2);
              s = s * s + w;
-             if (s > T(0)) 
+             if (s > T(0))
              {
                  s = sqrt( s);
                  if (y < x)
                     s = -s;
-                
+
                  s = x - w / ((y - x) / T(2) + s);
                  for (i = low; i <= n; i++)
                     pm[i*nn+i] -= s;
-                 
+
                  exshift += s;
                  x = y = w = 0.964;
              }
@@ -2964,7 +2964,7 @@ matrix<T>::hqr2 (valarray<T>& d, valarray<T>& e, matrix<T>& v, bool eivec)
             return false;
 
          int m = n-2;
-         while (m >= l) 
+         while (m >= l)
          {
             z = pm[m*nn+m];
             r = x - z;
@@ -2978,7 +2978,7 @@ matrix<T>::hqr2 (valarray<T>& d, valarray<T>& e, matrix<T>& v, bool eivec)
             r = r / s;
             if (m == l)
                break;
-            
+
             if (abs( pm[m*nn+m-1]) * (abs( q) + abs( r)) <
                epsilon(r) * (abs( p) * (abs( pm[(m-1)*nn+m-1]) + abs( z) +
                abs( pm[(m+1)*nn+m+1])))) {
@@ -2987,23 +2987,23 @@ matrix<T>::hqr2 (valarray<T>& d, valarray<T>& e, matrix<T>& v, bool eivec)
             m--;
          }
 
-         for (i = m+2; i <= n; i++) 
+         for (i = m+2; i <= n; i++)
          {
             pm[i*nn+i-2] = T(0);
             if (i > m+2)
                pm[i*nn+i-3] = T(0);
          }
 
-         for (k = m; k <= n-1; k++) 
+         for (k = m; k <= n-1; k++)
          {
             bool notlast = (k != n-1);
-            if (k != m) 
+            if (k != m)
             {
                p = pm[k*nn+k-1];
                q = pm[(k+1)*nn+k-1];
                r = notlast ? pm[(k+2)*nn+k-1] : T(0);
                x = abs( p) + abs( q) + abs( r);
-               if (x > epsilon(x)) 
+               if (x > epsilon(x))
                {
                   p = p / x;
                   q = q / x;
@@ -3012,18 +3012,18 @@ matrix<T>::hqr2 (valarray<T>& d, valarray<T>& e, matrix<T>& v, bool eivec)
             }
             if (x < epsilon(x))
                break;
-            
+
             s = sqrt( p * p + q * q + r * r);
             if (p < T(0))
                s = -s;
-            
-            if (s != T(0)) 
+
+            if (s != T(0))
             {
                if (k != m)
                   pm[k*nn+k-1] = -s * x;
                else if (l != m)
                   pm[k*nn+k-1] = -pm[k*nn+k-1];
-               
+
                p = p + s;
                x = p / s;
                y = q / s;
@@ -3031,10 +3031,10 @@ matrix<T>::hqr2 (valarray<T>& d, valarray<T>& e, matrix<T>& v, bool eivec)
                q = q / p;
                r = r / p;
 
-               for (j = k; j < nn; j++) 
+               for (j = k; j < nn; j++)
                {
                   p = pm[k*nn+j] + q * pm[(k+1)*nn+j];
-                  if (notlast) 
+                  if (notlast)
                   {
                      p = p + r * pm[(k+2)*nn+j];
                      pm[(k+2)*nn+j] = pm[(k+2)*nn+j] - p * z;
@@ -3043,10 +3043,10 @@ matrix<T>::hqr2 (valarray<T>& d, valarray<T>& e, matrix<T>& v, bool eivec)
                   pm[(k+1)*nn+j] = pm[(k+1)*nn+j] - p * y;
                }
 
-               for (i = 0; i <= math::min( n, k+3); i++) 
+               for (i = 0; i <= math::min( n, k+3); i++)
                {
                   p = x * pm[i*nn+k] + y * pm[i*nn+k+1];
-                  if (notlast) 
+                  if (notlast)
                   {
                      p = p + z * pm[i*nn+k+2];
                      pm[i*nn+k+2] = pm[i*nn+k+2] - p * r;
@@ -3056,10 +3056,10 @@ matrix<T>::hqr2 (valarray<T>& d, valarray<T>& e, matrix<T>& v, bool eivec)
                }
 
                if (eivec)
-                  for (i = low; i <= high; i++) 
+                  for (i = low; i <= high; i++)
                   {
                      p = x * pv[i*nn+k] + y * pv[i*nn+k+1];
-                     if (notlast) 
+                     if (notlast)
                      {
                         p += z * pv[i*nn+k+2];
                         pv[i*nn+k+2] -= p * r;
@@ -3075,38 +3075,38 @@ matrix<T>::hqr2 (valarray<T>& d, valarray<T>& e, matrix<T>& v, bool eivec)
    if (norm < epsilon(norm))
       return true;
 
-   for (n = nn-1; n >= 0; n--) 
+   for (n = nn-1; n >= 0; n--)
    {
       p = d[n];
       q = e[n];
 
-      if (q == T(0)) 
+      if (q == T(0))
       {
          int l = n;
          pm[n*nn+n] = T(1);
-         for (i = n-1; i >= 0; i--) 
+         for (i = n-1; i >= 0; i--)
          {
             w = pm[i*nn+i] - p;
             r = T(0);
             for (j = l; j <= n; j++)
                r += pm[i*nn+j] * pm[j*nn+n];
-            
-            if (e[i] < T(0)) 
+
+            if (e[i] < T(0))
             {
                z = w;
                s = r;
-            } 
-            else 
+            }
+            else
             {
                l = i;
-               if (e[i] == T(0)) 
+               if (e[i] == T(0))
                {
                   if (w != T(0))
                      pm[i*nn+n] = -r / w;
                   else
                      pm[i*nn+n] = -r / (epsilon(norm) * norm);
-               } 
-               else 
+               }
+               else
                {
                   x = pm[i*nn+i+1];
                   y = pm[(i+1)*nn+i];
@@ -3120,22 +3120,22 @@ matrix<T>::hqr2 (valarray<T>& d, valarray<T>& e, matrix<T>& v, bool eivec)
                }
 
                t = abs( pm[i*nn+n]);
-               if ((epsilon(t) * t) * t > T(1)) 
+               if ((epsilon(t) * t) * t > T(1))
                   for (j = i; j <= n; j++)
                      pm[j*nn+n] /= t;
             }
          }
-      } 
-      else if (q < T(0)) 
+      }
+      else if (q < T(0))
       {
          int l = n-1;
 
-         if (abs( pm[n*nn+n-1]) > abs( pm[(n-1)*nn+n])) 
+         if (abs( pm[n*nn+n-1]) > abs( pm[(n-1)*nn+n]))
          {
             pm[(n-1)*nn+n-1] = q / pm[n*nn+n-1];
             pm[(n-1)*nn+n] = -(pm[n*nn+n] - p) / pm[n*nn+n-1];
-         } 
-         else 
+         }
+         else
          {
             cdiv( 0.0, -pm[(n-1)*nn+n], pm[(n-1)*nn+n-1]-p, q, cdivr, cdivi);
             pm[(n-1)*nn+n-1] = cdivr;
@@ -3143,48 +3143,48 @@ matrix<T>::hqr2 (valarray<T>& d, valarray<T>& e, matrix<T>& v, bool eivec)
          }
          pm[n*nn+n-1] = T(0);
          pm[n*nn+n] = T(1);
-         for (i = n-2; i >= 0; i--) 
+         for (i = n-2; i >= 0; i--)
          {
             T ra(0),sa(0),vr,vi;
 
-            for (j = l; j <= n; j++) 
+            for (j = l; j <= n; j++)
             {
                ra += pm[i*nn+j] * pm[j*nn+n-1];
                sa += pm[i*nn+j] * pm[j*nn+n];
             }
             w = pm[i*nn+i] - p;
 
-            if (e[i] < T(0)) 
+            if (e[i] < T(0))
             {
                z = w;
                r = ra;
                s = sa;
-            } 
-            else 
+            }
+            else
             {
                l = i;
                if (e[i] == T(0))
                {
                   cdiv( -ra, -sa, w, q, pm[i*nn+n-1], pm[i*nn+n]);
-               } 
-               else 
+               }
+               else
                {
                   x = pm[i*nn+i+1];
                   y = pm[(i+1)*nn+i];
                   vr = (d[i] - p) * (d[i] - p) + e[i] * e[i] - q * q;
                   vi = (d[i] - p) * 2.0 * q;
-                  if (vr == T(0) && vi == T(0)) 
+                  if (vr == T(0) && vi == T(0))
                      vr = epsilon(norm) * norm * (abs( w) + abs(q) + abs(x) + abs(y) + abs(z));
 
                   cdiv( x*r - z*ra + q*sa, x*s - z*sa - q*ra, vr, vi, cdivr, cdivi);
                   pm[i*nn+n-1] = cdivr;
                   pm[i*nn+n] = cdivi;
-                  if (abs(x) > (abs(z) + abs(q))) 
+                  if (abs(x) > (abs(z) + abs(q)))
                   {
                      pm[(i+1)*nn+n-1] = (-ra - w * pm[i*nn+n-1] + q * pm[i*nn+n]) / x;
                      pm[(i+1)*nn+n] = (-sa - w * pm[i*nn+n] - q * pm[i*nn+n-1]) / x;
-                  } 
-                  else 
+                  }
+                  else
                   {
                      cdiv( -r - y * pm[i*nn+n-1], -s - y * pm[i*nn+n], z, q, cdivr, cdivi);
                      pm[(i+1)*nn+n-1] = cdivr;
@@ -3193,8 +3193,8 @@ matrix<T>::hqr2 (valarray<T>& d, valarray<T>& e, matrix<T>& v, bool eivec)
                }
 
                t = math::max( abs( pm[i*nn+n-1]), abs( pm[i*nn+n]));
-               if ((epsilon(t) * t) * t > T(1)) 
-                  for (j = i; j <= n; j++) 
+               if ((epsilon(t) * t) * t > T(1))
+                  for (j = i; j <= n; j++)
                   {
                      pm[j*nn+n-1] /= t;
                      pm[j*nn+n] /= t;
@@ -3206,18 +3206,18 @@ matrix<T>::hqr2 (valarray<T>& d, valarray<T>& e, matrix<T>& v, bool eivec)
 
    if (eivec)
    {
-      for (i = 0; i < nn; i++) 
-         if (i < low || i > high) 
+      for (i = 0; i < nn; i++)
+         if (i < low || i > high)
             for (j = i; j < nn; j++)
                pv[i*nn+j] = pm[i*nn+j];
-         
-      for (j = nn-1; j >= low; j--) 
-         for (i = low; i <= high; i++) 
+
+      for (j = nn-1; j >= low; j--)
+         for (i = low; i <= high; i++)
          {
             z = T(0);
             for (k = low; k <= math::min( j, high); k++)
                z += pv[i*nn+k] * pm[k*nn+j];
-         
+
             pv[i*nn+j] = z;
          }
    }
@@ -3226,11 +3226,11 @@ matrix<T>::hqr2 (valarray<T>& d, valarray<T>& e, matrix<T>& v, bool eivec)
 
 ///////////////////////////
 //  This is derived from the Algol procedures orthes and ortran,
-//  by Martin and Wilkinson, Handbook for Auto. Comp.,Vol.ii-Linear 
+//  by Martin and Wilkinson, Handbook for Auto. Comp.,Vol.ii-Linear
 //  Algebra, and the corresponding Fortran subroutines in EISPACK.
 //
-template <class T> void 
-matrix<T>::balanc (matrix<T>& v, bool eivec) 
+template <class T> void
+matrix<T>::balanc (matrix<T>& v, bool eivec)
 {
    size_t i,j,lo,hi,m,n;
 
@@ -3245,38 +3245,38 @@ matrix<T>::balanc (matrix<T>& v, bool eivec)
    if (eivec)
       pv = &v(0,0);
 
-   for (m=lo+1; m <= hi-1; m++) 
+   for (m=lo+1; m <= hi-1; m++)
    {
       T scale(0);
       for (i=m; i <= hi; i++)
          scale += abs( pm[i*n+m-1]);
 
-      if (scale > epsilon(scale)) 
+      if (scale > epsilon(scale))
       {
          T h(0);
-         for (i=hi; i >= m; i--) 
+         for (i=hi; i >= m; i--)
          {
             ort[i] = pm[i*n+m-1] / scale;
             h += ort[i] * ort[i];
          }
          T g = sqrt( h);
-         if (ort[m] > T(0)) 
+         if (ort[m] > T(0))
             g = -g;
-         
+
          h -= ort[m] * g;
          ort[m] -= g;
 
-         for (j=m; j < n; j++) 
+         for (j=m; j < n; j++)
          {
             T f(0);
-            for (i = hi; i >= m; i--) 
+            for (i = hi; i >= m; i--)
                f += ort[i] * pm[i*n+j];
             f /= h;
             for (i=m; i <= hi; i++)
                pm[i*n+j] -= f * ort[i];
         }
 
-        for (i=0; i <= hi; i++) 
+        for (i=0; i <= hi; i++)
         {
             T f(0);
             for (j=hi; j >= m; j--)
@@ -3295,15 +3295,15 @@ matrix<T>::balanc (matrix<T>& v, bool eivec)
          for (j = 0; j < n; j++)
             pv[i*n+j] = (i == j ? T(1) : T(0));
 
-   for (m=hi-1; m >= lo+1; m--) 
+   for (m=hi-1; m >= lo+1; m--)
    {
-      if (abs(pm[m*n+m-1]) > T(0)) 
+      if (abs(pm[m*n+m-1]) > T(0))
       {
          for (i=m+1; i <= hi; i++)
             ort[i] = pm[i*n+m-1];
 
          if (eivec)
-            for (j=m; j <= hi; j++) 
+            for (j=m; j <= hi; j++)
             {
                T g(0);
                for (i=m; i <= hi; i++)
@@ -3322,28 +3322,28 @@ matrix<T>::tql2 (valarray<T>& d, valarray<T>& e, bool eivec)
 {
    size_t m,l,iter,i,k;
    T s,r,p,g,f,c,b;
-   
+
    size_t n = mPtr->nrow;
    T *pm = &mPtr->val[0];
 
    for (i=1; i < n; i++)
-      e[i-1] = e[i]; 
+      e[i-1] = e[i];
    e[n-1] = T(0);
 
-   for (l=0; l < n; l++) 
+   for (l=0; l < n; l++)
    {
       iter=0;
-      do 
+      do
       {
          for (m=l; m < n-1; m++)
-         { 
+         {
             T dd = abs( d[m]) + abs( d[m+1]);
-            if (abs( e[m]) <= epsilon(e[m])*dd) 
+            if (abs( e[m]) <= epsilon(e[m])*dd)
                break;
          }
-         if (m != l) 
+         if (m != l)
          {
-            if (iter++ == 30) 
+            if (iter++ == 30)
                return false;
 
             g = (d[l+1] - d[l]) / (T(2) * e[l]);
@@ -3358,7 +3358,7 @@ matrix<T>::tql2 (valarray<T>& d, valarray<T>& e, bool eivec)
                r = hypot( f, g);
                e[i+1] = r;
                if (r < epsilon(r))
-               { 
+               {
                   d[i+1] -= p;
                   e[m] = T(0);
                   break;
@@ -3373,7 +3373,7 @@ matrix<T>::tql2 (valarray<T>& d, valarray<T>& e, bool eivec)
 
                if (eivec)
                   for (k=0; k < n; k++)
-                  { 
+                  {
                      f = pm[k*n+i+1];
                      pm[k*n+i+1] = s * pm[k*n+i] + c * f;
                      pm[k*n+i] = c * pm[k*n+i] - s * f;
@@ -3381,13 +3381,13 @@ matrix<T>::tql2 (valarray<T>& d, valarray<T>& e, bool eivec)
                if (i == l)
                   break;
             }
-            if (abs(r) < epsilon(r) && i >= l) 
+            if (abs(r) < epsilon(r) && i >= l)
                continue;
             d[l] -= p;
             e[l] = g;
             e[m] = T(0);
          }
-      } 
+      }
       while (m != l);
 
       if (abs(d[l]) < epsilon(d[l]))
@@ -3411,23 +3411,23 @@ matrix<T>::tred2 (valarray<T>& d, valarray<T>& e, bool eivec)
       clone();
    T *pm = &mPtr->val[0];
 
-   for (i=n-1; i > 0; i--) 
+   for (i=n-1; i > 0; i--)
    {
       T h(0), scale(0);
 
-      if (i > 1) 
+      if (i > 1)
       {
          for (k=0; k < i; k++)
             scale += abs( pm[i*n+k]);
 
          if (scale < epsilon(scale))
             e[i] = pm[i*n+i-1];
-         else 
+         else
          {
-            for (k=0; k < i; k++) 
+            for (k=0; k < i; k++)
             {
                pm[i*n+k] /= scale;
-               T tmp = pm[i*n+k]; 
+               T tmp = pm[i*n+k];
                h += tmp * tmp;
             }
             T f = pm[i*n+i-1];
@@ -3439,7 +3439,7 @@ matrix<T>::tred2 (valarray<T>& d, valarray<T>& e, bool eivec)
             h -= f * g;
             pm[i*n+i-1] = f - g;
             f = T(0);
-            for (j=0; j < i; j++) 
+            for (j=0; j < i; j++)
             {
                if (eivec)
                   pm[j*n+i] = pm[i*n+j] / h;
@@ -3453,7 +3453,7 @@ matrix<T>::tred2 (valarray<T>& d, valarray<T>& e, bool eivec)
             }
             T hh = f / (h+h);
             for (j=0; j < i; j++)
-            { 
+            {
                f = pm[i*n+j];
                g = e[j] - hh * f;
                e[j] = g;
@@ -3461,7 +3461,7 @@ matrix<T>::tred2 (valarray<T>& d, valarray<T>& e, bool eivec)
                   pm[j*n+k] -= (f * e[k] + g * pm[i*n+k]);
             }
          }
-      } 
+      }
       else
          e[i] = pm[i*n+i-1];
       d[i] = h;
@@ -3472,12 +3472,12 @@ matrix<T>::tred2 (valarray<T>& d, valarray<T>& e, bool eivec)
    e[0] = T(0);
 
    for (i=0; i < n; i++)
-   { 
+   {
       if (eivec)
       {
          if (d[i] != T(0))
-         { 
-            for (j=0; j < i; j++) 
+         {
+            for (j=0; j < i; j++)
             {
                T g(0);
                for (k=0; k < i; k++)
@@ -3488,7 +3488,7 @@ matrix<T>::tred2 (valarray<T>& d, valarray<T>& e, bool eivec)
          }
          d[i] = pm[i*n+i];
          pm[i*n+i] = T(1);
-         for (j=0; j < i; j++) 
+         for (j=0; j < i; j++)
             pm[j*n+i] = pm[i*n+j] = T(0);
       }
       else
@@ -3602,7 +3602,7 @@ operator<< (ostream& os, const valarray<T>& v)
 // Specializations
 //
 
-template <> inline 
+template <> inline
 void matrix<complex<float> >::rand (int rmin, int rmax, int rseed)
 {
    typedef value_type T;
@@ -3629,7 +3629,7 @@ void matrix<complex<float> >::rand (int rmin, int rmax, int rseed)
       --mPtr->refcnt;
       mPtr = allocator( Allocate, mPtr->nrow, mPtr->ncol);
    }
-   
+
    T *pv = &mPtr->val[0];
    size_t n = size();
 
@@ -3660,7 +3660,7 @@ void matrix<complex<float> >::rand (int rmin, int rmax, int rseed)
    }
 }
 
-template <> inline 
+template <> inline
 void matrix<complex<double> >::rand (int rmin, int rmax, int rseed)
 {
    typedef value_type T;
@@ -3689,7 +3689,7 @@ void matrix<complex<double> >::rand (int rmin, int rmax, int rseed)
       --mPtr->refcnt;
       mPtr = allocator( Allocate, mPtr->nrow, mPtr->ncol);
    }
-   
+
    T *pv = &mPtr->val[0];
    size_t n = size();
 
@@ -3720,7 +3720,7 @@ void matrix<complex<double> >::rand (int rmin, int rmax, int rseed)
    }
 }
 
-template <> inline 
+template <> inline
 void matrix<complex<long double> >::rand (int rmin, int rmax, int rseed)
 {
    typedef value_type T;
@@ -3747,7 +3747,7 @@ void matrix<complex<long double> >::rand (int rmin, int rmax, int rseed)
       --mPtr->refcnt;
       mPtr = allocator( Allocate, mPtr->nrow, mPtr->ncol);
    }
-   
+
    T *pv = &mPtr->val[0];
    size_t n = size();
 
@@ -3805,7 +3805,7 @@ complex<long double> sign (complex<long double> a, complex<long double> b)
    return (b.real() < 0.0 || b.imag() < 0.0)? -a : a;
 }
 
-template <> inline 
+template <> inline
 bool matrix<complex<float> >::svd (matrix<complex<float> >& vc, valarray<complex<float> >& w)
 {
    typedef value_type T;
@@ -3868,7 +3868,7 @@ bool matrix<complex<float> >::svd (matrix<complex<float> >& vc, valarray<complex
                a[k*n+i] *= scale;
          }
       }
-      
+
       w[i] = scale * g;
       scale = VT( 0);
       s = T(0);
@@ -4014,7 +4014,7 @@ bool matrix<complex<float> >::svd (matrix<complex<float> >& vc, valarray<complex
             }
          }
          z = w[k];
-         if (l == k)                 
+         if (l == k)
          {
             if (z.real() < VT(0))
             {
@@ -4036,7 +4036,7 @@ bool matrix<complex<float> >::svd (matrix<complex<float> >& vc, valarray<complex
          f = ((y-z) * (y+z) + (g-h) * (g+h)) / (VT(2) * h * y);
          g = sqrt( f * f + T(1) * T(1));
          f = ((x-z) * (x+z) + h * ((y / (f+sign( g, f))) - h)) / x;
-         c = s = T(1);                    
+         c = s = T(1);
          for (j=l; j <= nm; j++)
          {
             i = j + 1;
@@ -4087,7 +4087,7 @@ bool matrix<complex<float> >::svd (matrix<complex<float> >& vc, valarray<complex
    return true;
 }
 
-template <> inline 
+template <> inline
 bool matrix<complex<double> >::svd (matrix<complex<double> >& vc, valarray<complex<double> >& w)
 {
    typedef value_type T;
@@ -4150,7 +4150,7 @@ bool matrix<complex<double> >::svd (matrix<complex<double> >& vc, valarray<compl
                a[k*n+i] *= scale;
          }
       }
-      
+
       w[i] = scale * g;
       scale = VT( 0);
       s = T(0);
@@ -4296,7 +4296,7 @@ bool matrix<complex<double> >::svd (matrix<complex<double> >& vc, valarray<compl
             }
          }
          z = w[k];
-         if (l == k)                 
+         if (l == k)
          {
             if (z.real() < VT(0))
             {
@@ -4306,7 +4306,7 @@ bool matrix<complex<double> >::svd (matrix<complex<double> >& vc, valarray<compl
             }
             break;
          }
-         
+
          if (its == 30)
             return false;
 
@@ -4318,7 +4318,7 @@ bool matrix<complex<double> >::svd (matrix<complex<double> >& vc, valarray<compl
          f = ((y-z) * (y+z) + (g-h) * (g+h)) / (VT(2) * h * y);
          g = sqrt( f * f + T(1) * T(1));
          f = ((x-z) * (x+z) + h * ((y / (f+sign( g, f))) - h)) / x;
-         c = s = T(1);                    
+         c = s = T(1);
          for (j=l; j <= nm; j++)
          {
             i = j + 1;
@@ -4369,7 +4369,7 @@ bool matrix<complex<double> >::svd (matrix<complex<double> >& vc, valarray<compl
    return true;
 }
 
-template <> inline 
+template <> inline
 bool matrix<complex<long double> >::svd (matrix<complex<long double> >& vc, valarray<complex<long double> >& w)
 {
    typedef value_type T;
@@ -4432,7 +4432,7 @@ bool matrix<complex<long double> >::svd (matrix<complex<long double> >& vc, vala
                a[k*n+i] *= scale;
          }
       }
-      
+
       w[i] = scale * g;
       scale = VT( 0);
       s = T(0);
@@ -4578,7 +4578,7 @@ bool matrix<complex<long double> >::svd (matrix<complex<long double> >& vc, vala
             }
          }
          z = w[k];
-         if (l == k)                 
+         if (l == k)
          {
             if (z.real() < VT(0))
             {
@@ -4600,7 +4600,7 @@ bool matrix<complex<long double> >::svd (matrix<complex<long double> >& vc, vala
          f = ((y-z) * (y+z) + (g-h) * (g+h)) / (VT(2) * h * y);
          g = sqrt( f * f + T(1) * T(1));
          f = ((x-z) * (x+z) + h * ((y / (f+sign( g, f))) - h)) / x;
-         c = s = T(1);                    
+         c = s = T(1);
          for (j=l; j <= nm; j++)
          {
             i = j + 1;
