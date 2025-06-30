@@ -14,7 +14,7 @@ Hough::Hough(PNM* img, ImageViewer* super) :
 }
 
 PNM* Hough::transform()
-{   
+{
     int thetaDensity = getParameter("theta_density").toInt();
 
     qDebug() << Q_FUNC_INFO << "Not implemented yet!";

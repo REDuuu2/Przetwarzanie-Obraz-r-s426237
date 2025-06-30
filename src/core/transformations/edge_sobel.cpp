@@ -27,18 +27,64 @@ void EdgeSobel::prepareMatrices()
 
 math::matrix<float>* EdgeSobel::rawHorizontalDetection()
 {
-    math::matrix<float>* x_gradient = new math::matrix<float>(this->image->width(), this->image->height());
+    int w = image->width();
+    int h = image->height();
+    math::matrix<float>* gradX = new math::matrix<float>(w, h);
 
-    qDebug() << Q_FUNC_INFO << "Not implemented yet!";
+    // Maska Sobel w poziomie
+    const int sobelX[3][3] = {
+        {-1, 0, 1},
+        {-2, 0, 2},
+        {-1, 0, 1}
+    };
 
-    return x_gradient;
+    for (int y = 1; y < h - 1; ++y)
+    {
+        for (int x = 1; x < w -1; ++x)
+        {
+            float sum = 0;
+            for (int ky = -1; ky <= 1; ++ky)
+                for (int kx = -1; kx <= 1; ++kx)
+                {
+                    int px = x + kx;
+                    int py = y + ky;
+                    int pixelVal = image->pixel(px, py) & 0xFF; // zakładam szarość
+                    sum += sobelX[ky + 1][kx + 1] * pixelVal;
+                }
+            (*gradX)(x,y) = sum;
+        }
+    }
+    return gradX;
 }
 
 math::matrix<float>* EdgeSobel::rawVerticalDetection()
 {
-    math::matrix<float>* y_gradient = new  math::matrix<float>(this->image->width(), this->image->height());
+    int w = image->width();
+    int h = image->height();
+    math::matrix<float>* gradY = new math::matrix<float>(w, h);
 
-    qDebug() << Q_FUNC_INFO << "Not implemented yet!";
+    // Maska Sobel w pionie
+    const int sobelY[3][3] = {
+        { 1,  2,  1},
+        { 0,  0,  0},
+        {-1, -2, -1}
+    };
 
-    return y_gradient;
+    for (int y = 1; y < h - 1; ++y)
+    {
+        for (int x = 1; x < w -1; ++x)
+        {
+            float sum = 0;
+            for (int ky = -1; ky <= 1; ++ky)
+                for (int kx = -1; kx <= 1; ++kx)
+                {
+                    int px = x + kx;
+                    int py = y + ky;
+                    int pixelVal = image->pixel(px, py) & 0xFF; // zakładam szarość
+                    sum += sobelY[ky + 1][kx + 1] * pixelVal;
+                }
+            (*gradY)(x,y) = sum;
+        }
+    }
+    return gradY;
 }
