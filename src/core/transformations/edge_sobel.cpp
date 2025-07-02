@@ -31,7 +31,7 @@ math::matrix<float>* EdgeSobel::rawHorizontalDetection()
     int h = image->height();
     math::matrix<float>* gradX = new math::matrix<float>(w, h);
 
-    // Maska Sobel w poziomie
+
     const int sobelX[3][3] = {
         {-1, 0, 1},
         {-2, 0, 2},
@@ -48,7 +48,7 @@ math::matrix<float>* EdgeSobel::rawHorizontalDetection()
                 {
                     int px = x + kx;
                     int py = y + ky;
-                    int pixelVal = image->pixel(px, py) & 0xFF; // zakładam szarość
+                    int pixelVal = image->pixel(px, py) & 0xFF;
                     sum += sobelX[ky + 1][kx + 1] * pixelVal;
                 }
             (*gradX)(x,y) = sum;
@@ -63,7 +63,7 @@ math::matrix<float>* EdgeSobel::rawVerticalDetection()
     int h = image->height();
     math::matrix<float>* gradY = new math::matrix<float>(w, h);
 
-    // Maska Sobel w pionie
+
     const int sobelY[3][3] = {
         { 1,  2,  1},
         { 0,  0,  0},
@@ -80,7 +80,7 @@ math::matrix<float>* EdgeSobel::rawVerticalDetection()
                 {
                     int px = x + kx;
                     int py = y + ky;
-                    int pixelVal = image->pixel(px, py) & 0xFF; // zakładam szarość
+                    int pixelVal = image->pixel(px, py) & 0xFF;
                     sum += sobelY[ky + 1][kx + 1] * pixelVal;
                 }
             (*gradY)(x,y) = sum;

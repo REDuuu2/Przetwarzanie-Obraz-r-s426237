@@ -27,28 +27,28 @@ PNM* EdgeCanny::transform()
 
     qDebug() << "Thresholds: upper =" << upper_thresh << ", lower =" << lower_thresh;
 
-    // 1. Konwersja na skalę szarości
+
     ConversionGrayscale grayscale(image);
     PNM* grayImage = grayscale.transform();
 
     qDebug() << "Gray image created";
 
-    // TU: możesz zapisać grayImage do pliku lub wyświetlić, jeśli masz taką możliwość
 
-    // 2. Rozmycie filtrem Gaussa
+
+
     BlurGaussian blur(grayImage);
-    blur.setParameter("size", 5);
-    blur.setParameter("sigma", 1.0);
+    blur.setParameter("size", 3);
+    blur.setParameter("sigma", 1.6);
     PNM* blurredImage = blur.transform();
 
     qDebug() << "Blurred image created";
 
-    // 3. Oblicz gradienty sobelem
+
     EdgeSobel sobel(blurredImage);
     math::matrix<float>* gradX = sobel.rawHorizontalDetection();
     math::matrix<float>* gradY = sobel.rawVerticalDetection();
 
-    // DEBUG: min/max gradientów
+
     float minGradX = std::numeric_limits<float>::max();
     float maxGradX = std::numeric_limits<float>::lowest();
     float minGradY = std::numeric_limits<float>::max();
@@ -70,7 +70,7 @@ PNM* EdgeCanny::transform()
     qDebug() << "GradX min:" << minGradX << "max:" << maxGradX;
     qDebug() << "GradY min:" << minGradY << "max:" << maxGradY;
 
-    // 4. Oblicz magnitude i kierunek gradientu
+
     math::matrix<float> magnitude(width, height);
     math::matrix<float> direction(width, height);
 
@@ -83,13 +83,13 @@ PNM* EdgeCanny::transform()
 
             magnitude(x, y) = std::sqrt(gx * gx + gy * gy);
             float angle = std::atan2(gy, gx) * 180.0f / M_PI;
-            if (angle < 0) angle += 180.0f;  // kierunek w [0,180)
+            if (angle < 0) angle += 180.0f;
 
             direction(x, y) = angle;
         }
     }
 
-    // DEBUG: min/max magnitude
+
     float minMag = std::numeric_limits<float>::max();
     float maxMag = std::numeric_limits<float>::lowest();
 
@@ -104,7 +104,7 @@ PNM* EdgeCanny::transform()
     }
     qDebug() << "Magnitude min:" << minMag << "max:" << maxMag;
 
-    // 5. Tłumienie niemaksymalne
+
     math::matrix<float> suppressed(width, height, 0.0f);
 
     for (int y = 1; y < height - 1; ++y)
@@ -144,7 +144,7 @@ PNM* EdgeCanny::transform()
         }
     }
 
-    // DEBUG: min/max suppressed
+
     float minSupp = std::numeric_limits<float>::max();
     float maxSupp = std::numeric_limits<float>::lowest();
 
@@ -159,7 +159,7 @@ PNM* EdgeCanny::transform()
     }
     qDebug() << "Suppressed min:" << minSupp << "max:" << maxSupp;
 
-    // 6. Progowanie z histerezą
+
     PNM* result = new PNM(width, height, QImage::Format_Grayscale8);
 
     math::matrix<bool> visited(width, height, false);
@@ -182,14 +182,10 @@ PNM* EdgeCanny::transform()
         }
     }
 
-    // Reszta kodu jak wcześniej...
 
-    // Na koniec, jeśli chcesz, dodaj debug do ilości wykrytych pikseli krawędzi:
     qDebug() << "Initial edge pixels count:" << edgePixels.size();
 
-    // Twój BFS dla progowania histerezy (jak wcześniej)
 
-    // Po wykonaniu BFS możesz też wypisać ile pikseli oznaczyłeś:
     int countEdges = 0;
     for (int y = 0; y < height; ++y)
     {

@@ -45,22 +45,22 @@ PNM* Segmentation::transform()
     int width = image->width();
     int height = image->height();
 
-    // 1. Konwersja do odcieni szarości
+
     PNM* grayImage = ConversionGrayscale(image).transform();
 
-    // 2. (Opcjonalnie) rozmycie
+
     if (getParameter("apply_blur").toBool())
     {
         grayImage = BlurGaussian(grayImage).transform();
     }
 
-    // 3. Przygotowanie struktur
+
     std::vector<std::vector<int>> heightmap(height, std::vector<int>(width));
     std::vector<std::vector<int>> labels(height, std::vector<int>(width, INIT));
     std::vector<std::vector<int>> dist(height, std::vector<int>(width, 0));
     std::queue<QPoint> fifo;
 
-    // 4. Wypełnij mapę wysokości (jasność pikseli)
+
     for (int y = 0; y < height; ++y)
         for (int x = 0; x < width; ++x)
             heightmap[y][x] = qGray(grayImage->pixel(x, y));
@@ -68,10 +68,10 @@ PNM* Segmentation::transform()
     int current_label = 0;
     const int IN_QUEUE = -3;
 
-    // 5. Iteracja po poziomach szarości [0–255]
+
     for (int h = 0; h <= 255; ++h)
     {
-        // 5.1 Znajdź piksele na poziomie h i oznacz jako MASK
+
         for (int y = 0; y < height; ++y)
         {
             for (int x = 0; x < width; ++x)
@@ -98,7 +98,7 @@ PNM* Segmentation::transform()
             }
         }
 
-        // 5.2 Propagacja znanych etykiet
+
         while (!fifo.empty())
         {
             QPoint p = fifo.front();
@@ -131,7 +131,7 @@ PNM* Segmentation::transform()
             delete[] neighbors;
         }
 
-        // 5.3 Tworzenie nowych regionów
+
         for (int y = 0; y < height; ++y)
         {
             for (int x = 0; x < width; ++x)
@@ -164,7 +164,7 @@ PNM* Segmentation::transform()
         }
     }
 
-    // 6. Tworzenie obrazu wyjściowego z etykiet
+
     PNM* result = new PNM(width, height, QImage::Format_Grayscale8);
     for (int y = 0; y < height; ++y)
         for (int x = 0; x < width; ++x)
